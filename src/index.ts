@@ -43,7 +43,7 @@ async function run() {
 
   setOutput('percent', percent);
 
-  await fetch(
+  const response = await fetch(
     `https://${JIRA_USER}:${JIRA_API_TOKEN}@teem-co.atlassian.net/gateway/api/compass/v1/metrics`,
     {
       method: 'post',
@@ -59,6 +59,12 @@ async function run() {
       }),
     },
   );
+
+  if (!response.ok) {
+    error('Failed to post metric to JIRA');
+  } else {
+    info(await response.text());
+  }
 }
 
 run();

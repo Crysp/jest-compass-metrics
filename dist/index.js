@@ -55,7 +55,7 @@ function run() {
         const percent = yield getCoveragePercent();
         (0, core_1.info)(`Percent: ${percent}%`);
         (0, core_1.setOutput)('percent', percent);
-        yield (0, node_fetch_1.default)(`https://${JIRA_USER}:${JIRA_API_TOKEN}@teem-co.atlassian.net/gateway/api/compass/v1/metrics`, {
+        const response = yield (0, node_fetch_1.default)(`https://${JIRA_USER}:${JIRA_API_TOKEN}@teem-co.atlassian.net/gateway/api/compass/v1/metrics`, {
             method: 'post',
             headers: {
                 Accept: 'application/json',
@@ -67,6 +67,12 @@ function run() {
                 timestamp: new Date().toISOString(),
             }),
         });
+        if (!response.ok) {
+            (0, core_1.error)('Failed to post metric to JIRA');
+        }
+        else {
+            (0, core_1.info)(yield response.text());
+        }
     });
 }
 run();
