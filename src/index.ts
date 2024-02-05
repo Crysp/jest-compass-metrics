@@ -48,6 +48,7 @@ async function run() {
     {
       method: 'post',
       headers: {
+        Authorization: 'Basic' + Buffer.from(JIRA_USER + ':' + JIRA_API_TOKEN),
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
@@ -61,7 +62,7 @@ async function run() {
   );
 
   if (!response.ok) {
-    error('Failed to post metric to JIRA');
+    error(`Failed to post metric to JIRA: ${await response.text()}`);
   } else {
     info(await response.text());
   }

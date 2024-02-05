@@ -58,6 +58,7 @@ function run() {
         const response = yield (0, node_fetch_1.default)(`https://${JIRA_USER}:${JIRA_API_TOKEN}@teem-co.atlassian.net/gateway/api/compass/v1/metrics`, {
             method: 'post',
             headers: {
+                Authorization: 'Basic' + Buffer.from(JIRA_USER + ':' + JIRA_API_TOKEN),
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
@@ -68,7 +69,7 @@ function run() {
             }),
         });
         if (!response.ok) {
-            (0, core_1.error)('Failed to post metric to JIRA');
+            (0, core_1.error)(`Failed to post metric to JIRA: ${yield response.text()}`);
         }
         else {
             (0, core_1.info)(yield response.text());
