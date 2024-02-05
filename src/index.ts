@@ -40,9 +40,7 @@ const getCoveragePercent = async (): Promise<number> => {
 async function run() {
   const testScript = getInput('test-script');
 
-  const npm = await execCommand('echo 1');
-
-  debug(npm);
+  await exec('npm --version');
 
   // const yarn = await execCommand('yarn --version');
   //
