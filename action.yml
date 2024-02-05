@@ -1,0 +1,16 @@
+name: 'Jest → Compass'
+description: 'Upload Jest metrics to Compass'
+inputs:
+  jira-user:
+    description: 'JIRA User'
+    required: true
+  jira-token:
+    description: 'JIRA API Token'
+    required: true
+  test-script:
+    description: 'Run tests script'
+    required: true
+    default: 'npm test'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

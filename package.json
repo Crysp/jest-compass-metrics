@@ -1,0 +1,22 @@
+{
+  "name": "jest-compass-metrics",
+  "description": "GtiHub Action: Upload Jest metrics to Compass",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "repository": "git@github.com:Crysp/jest-compass-metrics.git",
+  "author": "Crysp <just.lyonya@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc && ncc build ./lib/index.js --license licenses.txt"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@actions/exec": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.16",
+    "@vercel/ncc": "^0.38.1",
+    "prettier": "^3.2.5",
+    "typescript": "^5.3.3"
+  }
+}
