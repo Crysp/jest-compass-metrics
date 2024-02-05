@@ -10,7 +10,7 @@ inputs:
   test-script:
     description: 'Run tests script'
     required: true
-    default: 'npm test'
+    default: npm run test
 outputs:
   percent:
     description: 'Total coverage percent'
