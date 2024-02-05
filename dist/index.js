@@ -6,29 +6,6 @@
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -41,7 +18,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core_1 = __nccwpck_require__(2186);
 const exec_1 = __nccwpck_require__(1514);
-const fs = __importStar(__nccwpck_require__(7147));
 const execCommand = (command) => __awaiter(void 0, void 0, void 0, function* () {
     const output = [];
     const options = {
@@ -62,23 +38,29 @@ const execCommand = (command) => __awaiter(void 0, void 0, void 0, function* () 
         return Promise.reject(e);
     }
 });
-const existsCoverageReport = () => {
-    return fs.existsSync('./coverage/lcov.info');
-};
 const getCoveragePercent = () => __awaiter(void 0, void 0, void 0, function* () {
-    if (!existsCoverageReport()) {
-        return 0;
-    }
     const percent = yield execCommand('npx coverage-percentage ./coverage/lcov.info --lcov');
     return Number(parseFloat(percent).toFixed(2));
 });
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
+        const JIRA_USER = (0, core_1.getInput)('jira-user');
+        const JIRA_API_TOKEN = (0, core_1.getInput)('jira-token');
         const testScript = (0, core_1.getInput)('test-script');
         yield execCommand(testScript);
         const percent = yield getCoveragePercent();
         (0, core_1.info)(`Percent: ${percent}%`);
         (0, core_1.setOutput)('percent', percent);
+        yield execCommand(`curl --request POST \\
+--url https://teem-co.atlassian.net/gateway/api/compass/v1/metrics \\
+--user "${JIRA_USER}:${JIRA_API_TOKEN}" \\
+--header "Accept: application/json" \\
+--header "Content-Type: application/json" \\
+--data "{
+  \\"metricSourceId\\": \\"ari:cloud:compass:ba4bd631-12ed-4459-8a28-ee995fd1ee44:metric-source/68ae38a8-55f1-43d6-9a0c-7393f5dbd9d3/d34a60d1-a59a-45b3-b16a-172a95f19c07\\",
+  \\"value\\": ${percent},
+  \\"timestamp\\": \\"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\\"
+}"`);
     });
 }
 run();
