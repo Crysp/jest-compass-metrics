@@ -2,18 +2,6 @@ import { getInput, error, info } from '@actions/core';
 import { exec } from '@actions/exec';
 import * as fs from 'fs';
 
-async function run() {
-  const testScript = getInput('test-script');
-
-  await execCommand(testScript);
-
-  const percent = await getCoveragePercent();
-
-  info(`Percent: ${percent}%`);
-}
-
-run();
-
 const execCommand = async (command: string): Promise<string> => {
   const output: string[] = [];
   const options = {
@@ -48,3 +36,15 @@ const getCoveragePercent = async (): Promise<number> => {
   );
   return Number(parseFloat(percent).toFixed(2));
 };
+
+async function run() {
+  const testScript = getInput('test-script');
+
+  await execCommand(testScript);
+
+  const percent = await getCoveragePercent();
+
+  info(`Percent: ${percent}%`);
+}
+
+run();

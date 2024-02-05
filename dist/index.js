@@ -42,15 +42,6 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core_1 = __nccwpck_require__(2186);
 const exec_1 = __nccwpck_require__(1514);
 const fs = __importStar(__nccwpck_require__(7147));
-function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const testScript = (0, core_1.getInput)('test-script');
-        yield execCommand(testScript);
-        const percent = yield getCoveragePercent();
-        (0, core_1.info)(`Percent: ${percent}%`);
-    });
-}
-run();
 const execCommand = (command) => __awaiter(void 0, void 0, void 0, function* () {
     const output = [];
     const options = {
@@ -81,6 +72,15 @@ const getCoveragePercent = () => __awaiter(void 0, void 0, void 0, function* () 
     const percent = yield execCommand('npx coverage-percentage ./coverage/lcov.info --lcov');
     return Number(parseFloat(percent).toFixed(2));
 });
+function run() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const testScript = (0, core_1.getInput)('test-script');
+        yield execCommand(testScript);
+        const percent = yield getCoveragePercent();
+        (0, core_1.info)(`Percent: ${percent}%`);
+    });
+}
+run();
 
 
 /***/ }),
