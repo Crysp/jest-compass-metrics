@@ -74,10 +74,20 @@ const getCoveragePercent = () => __awaiter(void 0, void 0, void 0, function* () 
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const testScript = (0, core_1.getInput)('test-script');
-        yield execCommand(testScript);
-        const percent = yield getCoveragePercent();
-        (0, core_1.info)(`Percent: ${percent}%`);
-        (0, core_1.setOutput)('percent', percent);
+        const output = [];
+        yield (0, exec_1.exec)(testScript, [], {
+            listeners: {
+                stdline: (data) => {
+                    output.push(data);
+                },
+            },
+        });
+        (0, core_1.debug)(output.join('\n'));
+        // const percent = await getCoveragePercent();
+        //
+        // info(`Percent: ${percent}%`);
+        //
+        // setOutput('percent', percent);
     });
 }
 run();

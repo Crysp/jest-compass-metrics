@@ -1,4 +1,4 @@
-import { getInput, setOutput, error, info } from '@actions/core';
+import { getInput, setOutput, error, info, debug } from '@actions/core';
 import { exec } from '@actions/exec';
 import * as fs from 'fs';
 
@@ -39,13 +39,23 @@ const getCoveragePercent = async (): Promise<number> => {
 async function run() {
   const testScript = getInput('test-script');
 
-  await execCommand(testScript);
+  const output: string[] = [];
 
-  const percent = await getCoveragePercent();
+  await exec(testScript, [], {
+    listeners: {
+      stdline: (data: string) => {
+        output.push(data);
+      },
+    },
+  });
 
-  info(`Percent: ${percent}%`);
+  debug(output.join('\n'));
 
-  setOutput('percent', percent);
+  // const percent = await getCoveragePercent();
+  //
+  // info(`Percent: ${percent}%`);
+  //
+  // setOutput('percent', percent);
 }
 
 run();
