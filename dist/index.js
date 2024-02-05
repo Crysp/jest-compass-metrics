@@ -75,7 +75,7 @@ const getCoveragePercent = () => __awaiter(void 0, void 0, void 0, function* () 
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const testScript = (0, core_1.getInput)('test-script');
-        const npm = yield execCommand('npm --version');
+        const npm = yield execCommand('echo 1');
         (0, core_1.debug)(npm);
         const yarn = yield execCommand('yarn --version');
         (0, core_1.debug)(yarn);
