@@ -5,12 +5,13 @@ import * as fs from 'fs';
 const execCommand = async (command: string): Promise<string> => {
   const output: string[] = [];
   const options = {
-    // silent: true,
+    silent: true,
     listeners: {
       stdline: (data: string) => {
         output.push(data);
       },
     },
+    cwd: './',
   };
   try {
     await exec(command, [], options);
@@ -21,15 +22,7 @@ const execCommand = async (command: string): Promise<string> => {
   }
 };
 
-const existsCoverageReport = () => {
-  return fs.existsSync('./coverage/lcov.info');
-};
-
 const getCoveragePercent = async (): Promise<number> => {
-  if (!existsCoverageReport()) {
-    return 0;
-  }
-
   const percent = await execCommand(
     'npx coverage-percentage ./coverage/lcov.info --lcov',
   );

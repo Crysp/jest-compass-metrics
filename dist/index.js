@@ -45,12 +45,13 @@ const fs = __importStar(__nccwpck_require__(7147));
 const execCommand = (command) => __awaiter(void 0, void 0, void 0, function* () {
     const output = [];
     const options = {
-        // silent: true,
+        silent: true,
         listeners: {
             stdline: (data) => {
                 output.push(data);
             },
         },
+        cwd: './',
     };
     try {
         yield (0, exec_1.exec)(command, [], options);
