@@ -58,7 +58,7 @@ function run() {
         const response = yield (0, node_fetch_1.default)(`https://${JIRA_USER}:${JIRA_API_TOKEN}@teem-co.atlassian.net/gateway/api/compass/v1/metrics`, {
             method: 'post',
             headers: {
-                Authorization: 'Basic' + Buffer.from(JIRA_USER + ':' + JIRA_API_TOKEN),
+                Authorization: 'Basic ' + Buffer.from(JIRA_USER + ':' + JIRA_API_TOKEN),
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },

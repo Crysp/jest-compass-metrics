@@ -48,7 +48,7 @@ async function run() {
     {
       method: 'post',
       headers: {
-        Authorization: 'Basic' + Buffer.from(JIRA_USER + ':' + JIRA_API_TOKEN),
+        Authorization: 'Basic ' + Buffer.from(JIRA_USER + ':' + JIRA_API_TOKEN),
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
