@@ -44,17 +44,17 @@ async function run() {
 
   debug(npm);
 
-  const yarn = await execCommand('yarn --version');
-
-  debug(yarn);
-
-  await execCommand(testScript);
-
-  const percent = await getCoveragePercent();
-
-  info(`Percent: ${percent}%`);
-
-  setOutput('percent', percent);
+  // const yarn = await execCommand('yarn --version');
+  //
+  // debug(yarn);
+  //
+  // await execCommand(testScript);
+  //
+  // const percent = await getCoveragePercent();
+  //
+  // info(`Percent: ${percent}%`);
+  //
+  // setOutput('percent', percent);
 }
 
 run();

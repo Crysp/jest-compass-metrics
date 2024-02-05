@@ -77,12 +77,17 @@ function run() {
         const testScript = (0, core_1.getInput)('test-script');
         const npm = yield execCommand('echo 1');
         (0, core_1.debug)(npm);
-        const yarn = yield execCommand('yarn --version');
-        (0, core_1.debug)(yarn);
-        yield execCommand(testScript);
-        const percent = yield getCoveragePercent();
-        (0, core_1.info)(`Percent: ${percent}%`);
-        (0, core_1.setOutput)('percent', percent);
+        // const yarn = await execCommand('yarn --version');
+        //
+        // debug(yarn);
+        //
+        // await execCommand(testScript);
+        //
+        // const percent = await getCoveragePercent();
+        //
+        // info(`Percent: ${percent}%`);
+        //
+        // setOutput('percent', percent);
     });
 }
 run();
