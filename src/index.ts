@@ -1,4 +1,4 @@
-import { getInput, error, info } from '@actions/core';
+import { getInput, setOutput, error, info } from '@actions/core';
 import { exec } from '@actions/exec';
 import * as fs from 'fs';
 
@@ -45,6 +45,8 @@ async function run() {
   const percent = await getCoveragePercent();
 
   info(`Percent: ${percent}%`);
+
+  setOutput('percent', percent);
 }
 
 run();

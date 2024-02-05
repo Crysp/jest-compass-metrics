@@ -11,6 +11,9 @@ inputs:
     description: 'Run tests script'
     required: true
     default: 'npm test'
+outputs:
+  percent:
+    description: 'Total coverage percent'
 runs:
   using: 'node20'
   main: 'dist/index.js'
