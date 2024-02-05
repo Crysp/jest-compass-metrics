@@ -1,4 +1,4 @@
-import { getInput, setOutput, error, info, debug } from '@actions/core';
+import { getInput, setOutput, error, info } from '@actions/core';
 import { exec } from '@actions/exec';
 import * as fs from 'fs';
 
@@ -11,7 +11,6 @@ const execCommand = async (command: string): Promise<string> => {
         output.push(data);
       },
     },
-    cwd: './',
   };
   try {
     await exec(command, [], options);
@@ -40,19 +39,13 @@ const getCoveragePercent = async (): Promise<number> => {
 async function run() {
   const testScript = getInput('test-script');
 
-  await exec('npm --version');
+  await execCommand(testScript);
 
-  // const yarn = await execCommand('yarn --version');
-  //
-  // debug(yarn);
-  //
-  // await execCommand(testScript);
-  //
-  // const percent = await getCoveragePercent();
-  //
-  // info(`Percent: ${percent}%`);
-  //
-  // setOutput('percent', percent);
+  const percent = await getCoveragePercent();
+
+  info(`Percent: ${percent}%`);
+
+  setOutput('percent', percent);
 }
 
 run();
